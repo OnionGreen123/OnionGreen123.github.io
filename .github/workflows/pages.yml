@@ -1,0 +1,65 @@
+name: Publish personal website
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Import approved website once
+        shell: python
+        run: |
+          from pathlib import Path
+          import base64, hashlib, io, zipfile
+          bundle = Path('site-bundle.b64')
+          if bundle.exists():
+              data = bundle.read_text().strip().encode()
+              assert hashlib.sha256(data).hexdigest() == '75a1952bb74aac792f22b655ba5c0b90922592efc7cb09087f08c0c2cd057083', 'Bundle integrity check failed'
+              with zipfile.ZipFile(io.BytesIO(base64.b64decode(data, validate=True))) as archive:
+                  for name in archive.namelist():
+                      path = Path(name)
+                      assert not path.is_absolute() and '..' not in path.parts and '.git' not in path.parts
+                      assert not path.exists(), f'Refusing to overwrite existing file: {name}'
+                  archive.extractall('.')
+              bundle.unlink()
+      - name: Check pages and links
+        run: python scripts/check.py
+      - name: Save imported website files
+        run: |
+          if ! git diff --quiet || [ -n "$(git ls-files --others --exclude-standard)" ]; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add --all
+            git commit -m 'Expand approved website into editable source and static files'
+            git push origin HEAD:main
+          fi
+      - name: Prepare public files
+        shell: python
+        run: |
+          from pathlib import Path
+          import shutil
+          output = Path('_site')
+          output.mkdir()
+          for name in ['39', 'about', 'assets', 'cv', 'notes', 'projects', 'publications', 'research']:
+              shutil.copytree(name, output / name)
+          for name in ['index.html', '404.html', 'robots.txt', 'sitemap.xml', '.nojekyll']:
+              shutil.copy2(name, output / name)
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - name: Deploy website
+        id: deployment
+        uses: actions/deploy-pages@v4
