@@ -1,0 +1,64 @@
+{
+  "name": "Shaoyang Zhang",
+  "chinese_name": "张劭扬",
+  "nickname": "Onion Green",
+  "email": "onionzsy@umich.edu",
+  "github": "https://github.com/OnionGreen123",
+  "linkedin": "https://www.linkedin.com/in/shaoyang-zhang-82861a33b",
+  "url": "https://oniongreen123.github.io",
+  "updated": "2026-10-29",
+  "publications": [
+    {
+      "id": "oasis",
+      "year": "2026",
+      "short": "OASIS",
+      "category": "Mechanistic interpretability",
+      "title": "Attention Sinks and Outliers in Attention Residuals",
+      "authors": "Haozheng Luo*, Haoran Dai*, Jingyuan Huang*, Shaoyang Zhang, Xi Chen, Eric Hanchen Jiang, Yijiang Li, Chenghao Qiu, Chenwei Xu, Zhenyu Pan, Haotian Zhang, Binghui Wang, and Yan Chen",
+      "venue": "NeurIPS 2026",
+      "extra": "COLM 2026 Efficient Reasoning Workshop · Spotlight",
+      "summary": "Understanding how attention sinks and activation outliers interact with cross-layer routing, and using null-aware attention to improve model robustness.",
+      "contribution": "I contributed controlled interventions and layer-wise representation analysis to study the relationship between attention sinks and activation outliers.",
+      "links": {
+        "Paper": "https://arxiv.org/abs/2605.17887",
+        "Code": "https://github.com/robinzixuan/OASIS",
+        "OpenReview": "https://openreview.net/forum?id=yjVSLVS0Dh"
+      },
+      "bibtex": "@misc{luo2026attentionsinksoutliersattention,\n  title={Attention Sinks and Outliers in Attention Residuals},\n  author={Luo, Haozheng and Dai, Haoran and Huang, Jingyuan and Zhang, Shaoyang and Chen, Xi and Jiang, Eric Hanchen and Li, Yijiang and Qiu, Chenghao and Xu, Chenwei and Pan, Zhenyu and Zhang, Haotian and Wang, Binghui and Chen, Yan},\n  year={2026},\n  eprint={2605.17887},\n  archivePrefix={arXiv},\n  primaryClass={cs.LG},\n  url={https://arxiv.org/abs/2605.17887}\n}"
+    },
+    {
+      "id": "knowsim",
+      "year": "2026",
+      "short": "KnowSim",
+      "category": "Human–AI interaction",
+      "title": "KnowSim: Evaluating Information Calibration in LLM Assistants with User Simulators that Learn",
+      "authors": "Yoonjoo Lee, Hyoungwook Jin, Tae Soo Kim, Shaoyang Zhang, Philippe Laban, and Q. Vera Liao",
+      "venue": "EMNLP 2026",
+      "extra": "Main Conference",
+      "summary": "Evaluating whether assistants adapt to what a user knows, with user simulators whose explicit knowledge states evolve throughout a conversation.",
+      "contribution": "I built experimental infrastructure for knowledge-state-aware simulation, conversation analysis, and the initial end-to-end human validation study, then iterated on these systems through pilot feedback and failure analysis.",
+      "links": {
+        "Paper": "https://aclanthology.org/2026.emnlp-main.1307/",
+        "Project": "https://yoonjoolee.com/knowsim/",
+        "Code": "https://github.com/yjo2lee/knowsim"
+      },
+      "bibtex": "@inproceedings{lee-etal-2026-knowsim,\n  title={KnowSim: Evaluating Information Calibration in LLM Assistants with User Simulators that Learn},\n  author={Lee, Yoonjoo and Jin, Hyoungwook and Kim, Tae Soo and Zhang, Shaoyang and Laban, Philippe and Liao, Q. Vera},\n  booktitle={Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing},\n  year={2026},\n  pages={29750--29780},\n  publisher={Association for Computational Linguistics},\n  url={https://aclanthology.org/2026.emnlp-main.1307/}\n}"
+    },
+    {
+      "id": "power",
+      "year": "2024",
+      "short": "Power systems",
+      "category": "Applied machine learning",
+      "title": "Knowledge Graph Enhanced Interactive Fault Diagnosis O&M Approach Based on Large Models of Electrical Power",
+      "authors": "Xiaoyun Tian, Bin Liu, Jianzhong Yang, Bo Ai, Huailiang Zhao, and Shaoyang Zhang",
+      "venue": "PSGEC 2024",
+      "extra": "Power System and Green Energy Conference",
+      "summary": "Combining knowledge graphs and large models for interactive fault diagnosis in electrical power systems.",
+      "contribution": "Co-author on applied research at the intersection of domain knowledge and machine learning for power-system operations.",
+      "links": {
+        "IEEE Xplore": "https://ieeexplore.ieee.org/document/10721152"
+      },
+      "bibtex": "@inproceedings{tian2024knowledge,\n  title={Knowledge Graph Enhanced Interactive Fault Diagnosis O&M Approach Based on Large Models of Electrical Power},\n  author={Tian, Xiaoyun and Liu, Bin and Yang, Jianzhong and Ai, Bo and Zhao, Huailiang and Zhang, Shaoyang},\n  booktitle={2024 4th Power System and Green Energy Conference (PSGEC)},\n  year={2024},\n  url={https://ieeexplore.ieee.org/document/10721152}\n}"
+    }
+  ]
+}
