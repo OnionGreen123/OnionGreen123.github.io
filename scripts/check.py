@@ -39,7 +39,7 @@ for p,obj in parsed.items():
 try:
  import fitz
  pdf=fitz.open(ROOT/'assets/Shaoyang_Zhang_CV.pdf')
- if len(pdf)!=2:errors.append('Public CV should have exactly two pages')
+ if len(pdf)!=1:errors.append('Public CV should have exactly one page')
  for page in pdf:
   text=page.get_text()
   for private in ['null-space','target latent','overleaf.com']:

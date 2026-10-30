@@ -9,7 +9,7 @@
 
 - 已删除网站 CV 的 Technical Skills 和 About 页的工具技能板块。
 - Miku 隐藏页面 `/39/` 的地图本体纵向高度从 340 增至 600，画布增至 1280，上海演出卡片下移。
-- `assets/Shaoyang_Zhang_CV.pdf` 已删除 Technical Skills，并包含可点击的网站链接。这是隐去未发表研究方法细节的公开版。
+- `assets/Shaoyang_Zhang_CV.pdf` 使用 Shaoyang 提供的 `Shaoyang_Zhang_CV_One_Page.pdf` 一页版本，保持原文件内容。
 - 地图加高和 PDF 替换尚未上传线上；本压缩包包含这两项最新修改。
 
 ## 最快更新 GitHub 网站
@@ -39,19 +39,14 @@ python -m http.server 8000
 - `scripts/build.py`：普通页面模板与 HTML 生成。
 - `scripts/miku_page.py`：演出记录、地图坐标和隐藏页面。
 - `assets/style.css`：主站样式；`assets/miku.css`：隐藏页面样式。
-- `scripts/make_cv.py`：公开 PDF 简历生成器。
+- `scripts/make_cv.py`：旧版两页 PDF 生成器；不用于当前一页版 CV。
 
 ```sh
 python scripts/build.py
 python scripts/check.py
 ```
 
-重新生成 PDF 时先安装依赖：
-
-```sh
-python -m pip install reportlab
-python scripts/make_cv.py
-```
+更新 PDF 时，用新的已确认文件替换 `assets/Shaoyang_Zhang_CV.pdf`，然后运行上述页面生成和检查命令。页面生成器会为下载链接加入文件内容版本号，避免浏览器继续使用旧 PDF。不要运行旧版 `scripts/make_cv.py` 覆盖当前一页版文件。
 
 可选安装 PyMuPDF，以启用检查脚本中的 PDF 检查：`python -m pip install pymupdf`。
 
