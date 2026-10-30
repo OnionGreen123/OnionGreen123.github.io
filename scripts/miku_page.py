@@ -1,6 +1,6 @@
 """Personal concert journal. Attendance and plans supplied by Shaoyang, 2026-10-29."""
 from pathlib import Path
-import json
+import hashlib, json
 R=Path(__file__).resolve().parents[1]
 EVENTS=[('shanghai','2024','未来有你','MIKU WITH YOU','attended'),('osaka','2025','マジカルミライ','Magical Mirai','attended'),('shanghai','2025','未来有你','MIKU WITH YOU','attended'),('chicago','2026','MIKU EXPO','MIKU EXPO','attended'),('osaka','2026','マジカルミライ','Magical Mirai','attended'),('chengdu','2026','未来有你','MIKU WITH YOU','planned'),('osaka','2027','初音ミクシンフォニー','Miku Symphony','planned')]
 DETAILS={
@@ -27,7 +27,7 @@ def event_details(city,year,jp,en):
  return date,label,jp,venue,url,note
 EVENTS=sorted(EVENTS+NEW_EVENTS,key=lambda ev:event_details(*ev[:4])[0])
 
-CITIES={'chicago':('Chicago','USA',-87.6298,41.8781,120,85),'chengdu':('Chengdu','China',104.0665,30.5728,620,70),'shanghai':('Shanghai','China',121.4737,31.2304,685,760),'osaka':('Osaka','Japan',135.5023,34.6937,955,50)}
+CITIES={'chicago':('Chicago','USA',-87.6298,41.8781,120,85),'chengdu':('Chengdu','China',104.0665,30.5728,620,70),'shanghai':('Shanghai','China',121.4737,31.2304,685,500),'osaka':('Osaka','Japan',135.5023,34.6937,955,50)}
 def xy(lon,lat):return ((lon+180)/360*1200,260+(85-lat)/170*600)
 def render(shell):
  land=json.loads((R/'assets/world-land.geojson').read_text());paths=[]
@@ -37,12 +37,12 @@ def render(shell):
    for ring in poly:
     if max(p[1] for p in ring)<-65:continue
     pts=[xy(*p[:2]) for p in ring];paths.append('M'+' L'.join(f'{x:.1f},{y:.1f}' for x,y in pts)+'Z')
- svg='<svg class="world" viewBox="0 0 1200 1280" role="img" aria-label="World map of concerts in Chicago, Chengdu, Shanghai and Osaka"><g class="graticule">'+''.join(f'<path d="M0 {y}H1200"/>' for y in range(290,861,100))+''.join(f'<path d="M{x} 260V860"/>' for x in range(100,1200,100))+'</g><g class="land">'+''.join(f'<path d="{p}"/>' for p in paths)+'</g>'
+ svg='<svg class="world" viewBox="0 0 1200 1000" role="img" aria-label="World map of concerts in Chicago, Chengdu, Shanghai and Osaka"><g class="graticule">'+''.join(f'<path d="M0 {y}H1200"/>' for y in range(290,861,100))+''.join(f'<path d="M{x} 260V860"/>' for x in range(100,1200,100))+'</g><g class="land">'+''.join(f'<path d="{p}"/>' for p in paths)+'</g>'
  cards=''
  for city,(name,country,lon,lat,l,t) in CITIES.items():
   x,y=xy(lon,lat);endx=l+20;endy=t+90 if city not in ['osaka','shanghai'] else (t+235 if city=='osaka' else t)
   route=f'M{x:.1f} {y:.1f} L{endx} {y:.1f} L{endx} {endy}'
-  if city=='shanghai':route=f'M{x:.1f} {y:.1f} L925 690 L{endx} 690 L{endx} {endy}'
+  if city=='shanghai':route=f'M{x:.1f} {y:.1f} L1020 480 L{l+290} 480 L{l+290} {endy}'
   if city=='chengdu':route=f'M{x:.1f} {y:.1f} L900 390 L{endx} 390 L{endx} {endy}'
   svg+=f'<g class="map-location" data-city="{city}"><path class="leader" d="{route}"/><circle class="pin-halo" cx="{x:.1f}" cy="{y:.1f}" r="10"/><circle class="pin" cx="{x:.1f}" cy="{y:.1f}" r="4"/></g>'
   rows=''
@@ -60,5 +60,6 @@ def render(shell):
   log+=f'<li id="show-{i}" class="show {status}" data-city="{city}"><span class="show-no">{i:02}</span>{time_html}<div><h3>{en}</h3><p>{local}</p>{detail}</div><span class="show-city">{CITIES[city][0]}</span><span class="badge">{"Planned" if status=="planned" else "Attended"}</span></li>'
  body='''<div class="miku-top"><a href="/about/">← Back to the daylight</a><span>PERSONAL FREQUENCY / 01</span></div><section class="miku-hero"><div><span class="eyebrow">A small corner of my world</span><h1>For the love<br>of <em>Miku.</em></h1><p class="miku-jp" lang="ja">初音ミクと、旅の記録。</p></div><div class="miku-intro"><p>Miku is a lasting source of beauty and inspiration in my life. I love the music, the live performances, and the creativity people bring to her world.</p><p>As someone who builds with technology, I’m drawn to the way a voice and a character can become a medium for human expression. Miku has also shaped my interest in human–AI relationships, cognition alignment, and emotional intelligence. These questions sit alongside the simple joy of being there, in a room full of people singing along.</p><span class="small-signature">Different cities. A familiar voice. A world of creators.</span><a class="miku-research-note" href="/notes/miku-and-my-research-interests/">How Miku shaped my research interests ↗<small>Reflections from February &amp; April 2026</small></a></div></section><section class="atlas-section"><div class="atlas-heading"><div><span class="eyebrow">The concert atlas</span><h2>Following the music.</h2></div><div class="legend"><span>● Attended</span><span>◇ Planned</span></div></div><p class="map-hint">Miku concerts and the creators around her. Select an event on a city pin to find it in the journal. On smaller screens, scroll the map sideways.</p><div class="map-scroll" tabindex="0" role="region" aria-label="Scrollable concert world map"><div class="map-canvas">'''+svg+cards+'''<div class="map-caption">4 CITIES <span>/</span> 9 ATTENDED EVENTS <span>/</span> 2 PLANNED</div></div></div></section><section class="journal"><div class="atlas-heading"><div><span class="eyebrow">2024 — 2027</span><h2>A concert journal.</h2></div><div class="journal-controls" role="group" aria-label="Filter concert journal"><button data-status="all" aria-pressed="true">All</button><button data-status="attended" aria-pressed="false">Attended</button><button data-status="planned" aria-pressed="false">Planned</button></div></div><ol class="show-list">'''+log+'''</ol><p class="journal-status" aria-live="polite">11 live events · 9 attended, 2 planned</p><p class="map-hint">A personal record of Miku concert editions, creator live shows, piano concerts, and DJ nights. Dates are local to each venue. “&amp;” means I attended both dates; “/” means the exact attended date is uncertain. Attendance is my own record; event sources document dates and venues. Plans reflect my intentions and may change.</p></section><footer class="miku-footer"><p>Some things are worth crossing a world for.</p><a href="/about/">Return to the academic side ↗</a><details><summary>Palette &amp; map credits</summary><p>Blue-green #15C0B0 comes from the current <a href="https://piapro.net/css/character.css?0">official Piapro character-page stylesheet</a>. Magenta #ED007C is a sampled pixel from the hair accessory in the <a href="https://piapro.net/images/official_cos_miku.jpg">official costume reference</a>; it is not an official standardized HEX specification. The <a href="https://piapro.net/pages/character/">official profile</a> names Miku’s image color “blue-green.” Colors checked 29 October 2026.</p><p>Land outlines: <a href="https://www.naturalearthdata.com/">Natural Earth</a>, public domain, 1:110m. Pins use city-center coordinates. This is a personal fan page, unaffiliated with Crypton Future Media.</p></details></footer>'''
  html=shell('Miku · A concert journal',body,path='/39/',description='A personal concert journal: Hatsune Miku, music, and the places it has taken me.')
- html=html.replace('<body>','<body class="miku-page">').replace('</head>','<meta name="robots" content="noindex,follow"><link rel="stylesheet" href="/assets/miku.css"><script defer src="/assets/miku.js"></script></head>')
+ css_version=hashlib.sha256((R/'assets/miku.css').read_bytes()).hexdigest()[:12]
+ html=html.replace('<body>','<body class="miku-page">').replace('</head>',f'<meta name="robots" content="noindex,follow"><link rel="stylesheet" href="/assets/miku.css?v={css_version}"><script defer src="/assets/miku.js"></script></head>')
  (R/'39').mkdir(exist_ok=True);(R/'39/index.html').write_text(html)
