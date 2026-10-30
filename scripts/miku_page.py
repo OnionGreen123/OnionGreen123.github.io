@@ -27,8 +27,8 @@ def event_details(city,year,jp,en):
  return date,label,jp,venue,url,note
 EVENTS=sorted(EVENTS+NEW_EVENTS,key=lambda ev:event_details(*ev[:4])[0])
 
-CITIES={'chicago':('Chicago','USA',-87.6298,41.8781,120,85),'chengdu':('Chengdu','China',104.0665,30.5728,620,70),'shanghai':('Shanghai','China',121.4737,31.2304,685,490),'osaka':('Osaka','Japan',135.5023,34.6937,955,50)}
-def xy(lon,lat):return ((lon+180)/360*1200,220+(85-lat)/170*340)
+CITIES={'chicago':('Chicago','USA',-87.6298,41.8781,120,85),'chengdu':('Chengdu','China',104.0665,30.5728,620,70),'shanghai':('Shanghai','China',121.4737,31.2304,685,760),'osaka':('Osaka','Japan',135.5023,34.6937,955,50)}
+def xy(lon,lat):return ((lon+180)/360*1200,260+(85-lat)/170*600)
 def render(shell):
  land=json.loads((R/'assets/world-land.geojson').read_text());paths=[]
  for feature in land['features']:
@@ -37,13 +37,13 @@ def render(shell):
    for ring in poly:
     if max(p[1] for p in ring)<-65:continue
     pts=[xy(*p[:2]) for p in ring];paths.append('M'+' L'.join(f'{x:.1f},{y:.1f}' for x,y in pts)+'Z')
- svg='<svg class="world" viewBox="0 0 1200 1030" role="img" aria-label="World map of concerts in Chicago, Chengdu, Shanghai and Osaka"><g class="graticule">'+''.join(f'<path d="M0 {y}H1200"/>' for y in range(250,551,60))+''.join(f'<path d="M{x} 220V560"/>' for x in range(100,1200,100))+'</g><g class="land">'+''.join(f'<path d="{p}"/>' for p in paths)+'</g>'
+ svg='<svg class="world" viewBox="0 0 1200 1280" role="img" aria-label="World map of concerts in Chicago, Chengdu, Shanghai and Osaka"><g class="graticule">'+''.join(f'<path d="M0 {y}H1200"/>' for y in range(290,861,100))+''.join(f'<path d="M{x} 260V860"/>' for x in range(100,1200,100))+'</g><g class="land">'+''.join(f'<path d="{p}"/>' for p in paths)+'</g>'
  cards=''
  for city,(name,country,lon,lat,l,t) in CITIES.items():
   x,y=xy(lon,lat);endx=l+20;endy=t+90 if city not in ['osaka','shanghai'] else (t+235 if city=='osaka' else t)
   route=f'M{x:.1f} {y:.1f} L{endx} {y:.1f} L{endx} {endy}'
-  if city=='shanghai':route=f'M{x:.1f} {y:.1f} L925 455 L{endx} 455 L{endx} {endy}'
-  if city=='chengdu':route=f'M{x:.1f} {y:.1f} L900 295 L{endx} 295 L{endx} {endy}'
+  if city=='shanghai':route=f'M{x:.1f} {y:.1f} L925 690 L{endx} 690 L{endx} {endy}'
+  if city=='chengdu':route=f'M{x:.1f} {y:.1f} L900 390 L{endx} 390 L{endx} {endy}'
   svg+=f'<g class="map-location" data-city="{city}"><path class="leader" d="{route}"/><circle class="pin-halo" cx="{x:.1f}" cy="{y:.1f}" r="10"/><circle class="pin" cx="{x:.1f}" cy="{y:.1f}" r="4"/></g>'
   rows=''
   for i,(c,year,jp,en,status) in enumerate(EVENTS,1):

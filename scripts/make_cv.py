@@ -33,7 +33,7 @@ entry('Northwestern University','Undergraduate Research Assistant · Remote | Ma
 entry('Michigan Institute for Data and AI in Society (MIDAS)','Undergraduate Research Assistant · Ann Arbor | Oct 2025 – Sep 2026','Mentors: Prof. Q. Vera Liao and Dr. Yoonjoo Lee. Built conversation-analysis pipelines and experimental infrastructure for knowledge-state-aware user simulation, including information-unit extraction, state updates, user-query generation, and evaluation. Implemented the initial end-to-end human validation-study system, including the chat interface, response collection, participant progress tracking, and data logging. Iterated through pilot feedback and failure analysis.')
 entry('Data-informed Design and Intelligent Systems Laboratory','Undergraduate Research Assistant · Shanghai | Oct 2024 – Oct 2025','Mentors: Prof. Youyi Bi and Dr. Chang Liu. Studied imitation learning for robotic manipulation; reproduced and evaluated MimicPlay. Independently developed keyboard-based robotic-arm teleoperation to collect human demonstration trajectories.')
 flow.append(PageBreak())
-p('Shaoyang Zhang','Name');p('Publications & technical experience','Meta')
+p('Shaoyang Zhang','Name');p('Publications & selected projects','Meta')
 sec('Publications')
 for pub in d['publications']:
  title=escape(pub['title']);author=escape(pub['authors']).replace('Shaoyang Zhang','<b>Shaoyang Zhang</b>')
@@ -43,8 +43,6 @@ p('* Equal contribution. OASIS author ordering follows the current public paper.
 sec('Selected engineering projects')
 entry('Robotic-arm teleoperation','DIDIS Laboratory','Developed keyboard-based teleoperation and collected demonstration trajectories for imitation learning experiments.')
 entry('DATA TAMER','EECS 448 team project · In development, Fall 2026','Exploring StarCraft II win-probability prediction and attribution using spatial sequences and structured game-state features.')
-sec('Technical skills')
-p('<b>Programming:</b> Python, C/C++, JavaScript.<br/><b>ML:</b> PyTorch, TensorFlow, Hugging Face Transformers.<br/><b>Research:</b> LLM pipelines, user simulation, knowledge-state modeling, mechanistic interpretability, activation and representation analysis, adversarial evaluation.<br/><b>Robotics:</b> MuJoCo, RoboVerse, imitation learning, teleoperation.<br/><b>Tools:</b> Weights &amp; Biases, Git, Linux, LaTeX, MATLAB.')
 def footer(c,doc):
  c.setStrokeColor(HexColor('#dcded6'));c.line(47,42,565,42);c.setFont('Helvetica',8);c.setFillColor(HexColor('#657269'));c.drawString(47,29,'Public CV · Updated 29 October 2026');c.drawRightString(565,29,str(doc.page))
 doc=SimpleDocTemplate(str(R/'assets/Shaoyang_Zhang_CV.pdf'),pagesize=(612,792),leftMargin=47,rightMargin=47,topMargin=42,bottomMargin=57,title='Shaoyang Zhang — Curriculum Vitae',author='Shaoyang Zhang')
