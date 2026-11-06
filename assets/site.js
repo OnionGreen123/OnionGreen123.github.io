@@ -20,3 +20,19 @@ filters.forEach(b=>b.addEventListener('click',()=>{activeYear=b.dataset.year;fil
 search?.addEventListener('input',applyFilters);
 document.querySelectorAll('[data-copy-citation]').forEach(b=>b.addEventListener('click',async()=>{const citation=document.getElementById(b.dataset.copyCitation); try {await navigator.clipboard.writeText(citation.textContent); b.textContent='Copied ✓';setTimeout(()=>{b.textContent='Copy BibTeX';},1800);}catch{citation.closest('details').open=true;const s=window.getSelection();s.removeAllRanges();const r=document.createRange();r.selectNodeContents(citation);s.addRange(r);b.textContent='Select & copy below';}}));
 document.querySelector('[data-print]')?.addEventListener('click',()=>window.print());
+
+// An unlisted five-tap shortcut; the shared report intentionally needs no login.
+const visitEntrance = (location.pathname === '/' || location.pathname === '/index.html')
+  ? document.querySelector('.footer > span') : null;
+if (visitEntrance) {
+ let visitTaps = [];
+ visitEntrance.addEventListener('click', () => {
+  const now = Date.now();
+  visitTaps = visitTaps.filter(time => now - time < 3000);
+  visitTaps.push(now);
+  if (visitTaps.length === 5) {
+   visitTaps = [];
+   location.assign('https://cloud.umami.is/share/GnoWh5O4ze2eyEF4');
+  }
+ });
+}
