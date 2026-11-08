@@ -54,7 +54,7 @@ jobs:
           output.mkdir()
           for name in ['39', 'about', 'assets', 'cv', 'notes', 'projects', 'publications', 'research']:
               shutil.copytree(name, output / name)
-          for name in ['index.html', '404.html', 'robots.txt', 'sitemap.xml', '.nojekyll']:
+          for name in ['index.html', '404.html', 'robots.txt', 'sitemap.xml', 'BingSiteAuth.xml', '.nojekyll']:
               shutil.copy2(name, output / name)
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
